@@ -25,7 +25,7 @@ jobs:
   build-maven-kafka-connect-transforms:
     uses: mosip/kattu/.github/workflows/maven-build.yml@master
     with:
-      SERVICE_LOCATION: es-kafka-connector/kafka_connect_transforms
+      SERVICE_LOCATION: build/es-kafka-connector/kafka_connect_transforms
       BUILD_ARTIFACT: kafka-connect
     secrets:
       OSSRH_USER: ${{ secrets.OSSRH_USER }}
@@ -39,7 +39,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - SERVICE_LOCATION: 'es-kafka-connector '
+          - SERVICE_LOCATION: 'build/es-kafka-connector '
             SERVICE_NAME: 'kafka-connect-transforms'
             BUILD_ARTIFACT: 'kafka-connect'
       fail-fast: false
@@ -59,7 +59,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - SERVICE_LOCATION: 'debezium-fixer'
+          - SERVICE_LOCATION: 'build/debezium-fixer'
             SERVICE_NAME: 'debezium-fixer'
       fail-fast: false
     name: ${{ matrix.SERVICE_NAME }}
@@ -77,7 +77,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - SERVICE_LOCATION: 'reporting-init/debezium-init'
+          - SERVICE_LOCATION: 'build/eporting-init/debezium-init'
             SERVICE_NAME: 'debezium-init'
       fail-fast: false
     name: ${{ matrix.SERVICE_NAME }}
@@ -95,7 +95,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - SERVICE_LOCATION: 'reporting-init/es-kafka-connect-init'
+          - SERVICE_LOCATION: 'build/reporting-init/es-kafka-connect-init'
             SERVICE_NAME: 'es-kafka-connect-init'
       fail-fast: false
     name: ${{ matrix.SERVICE_NAME }}

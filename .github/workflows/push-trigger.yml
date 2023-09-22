@@ -77,7 +77,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - SERVICE_LOCATION: 'build/eporting-init/debezium-init'
+          - SERVICE_LOCATION: 'build/reporting-init/debezium-init'
             SERVICE_NAME: 'debezium-init'
       fail-fast: false
     name: ${{ matrix.SERVICE_NAME }}

@@ -109,7 +109,7 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <filters>
                                 <filter>
-                                    <artifact>git-commit-id-plugin<</artifact>
+                                    <artifact>git-commit-id-plugin</artifact>
                                     <excludes>
                                         <exclude>module-info.class</exclude>
                                         <exclude>META-INF/*.SF</exclude>

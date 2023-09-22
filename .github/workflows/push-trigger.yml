@@ -25,8 +25,8 @@ jobs:
   build-maven-kafka-connect-transforms:
     uses: mosip/kattu/.github/workflows/maven-build.yml@master
     with:
-      SERVICE_LOCATION: build/es-kafka-connector/kafka_connect_transforms/
-      BUILD_ARTIFACT: kafka-connect
+      SERVICE_LOCATION: './build/es-kafka-connector/kafka_connect_transforms'
+      BUILD_ARTIFACT: 'kafka-connect'
     secrets:
       OSSRH_USER: ${{ secrets.OSSRH_USER }}
       OSSRH_SECRET: ${{ secrets.OSSRH_SECRET }}

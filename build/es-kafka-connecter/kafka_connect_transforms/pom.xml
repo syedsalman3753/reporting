@@ -95,9 +95,27 @@
                 <version>3.0.2</version>
             </plugin>
             <plugin>
-            <groupId>pl.project13.maven</groupId>
-            <artifactId>git-commit-id-plugin</artifactId>
-            <version>3.0.1</version>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>populate-git-commit-information</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                        <configuration>
+                            <verbose>true</verbose>
+                            <dateFormat>MM/dd/yyyy HH:mm:ss Z</dateFormat>
+                            <abbrevLength>8</abbrevLength>
+                            <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                            <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-shade-plugin</artifactId>

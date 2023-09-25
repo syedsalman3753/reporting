@@ -18,6 +18,15 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <name>Mosip</name>
+            <email>mosip.emailnotifier@gmail.com</email>
+            <organization>io.mosip</organization>
+            <organizationUrl>https://github.com/mosip/esignet</organizationUrl>
+        </developer>
+    </developers>
+
     <groupId>io.mosip</groupId>
     <artifactId>kafka_connect_transforms</artifactId>
     <version>1.2.1-SNAPSHOT</version>

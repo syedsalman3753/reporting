@@ -34,26 +34,60 @@ jobs:
       GPG_SECRET: ${{ secrets.GPG_SECRET }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
-  build-dockers:
-    needs: build-maven-kafka-connect-transforms
-    strategy:
-      matrix:
-        include:
-          - SERVICE_LOCATION: './build/es-kafka-connecter'
-            SERVICE_NAME: 'kafka-connect-transforms'
-            BUILD_ARTIFACT: 'kafka-connect'
-      fail-fast: false
-    name: ${{ matrix.SERVICE_NAME }}
-    uses: mosip/kattu/.github/workflows/docker-build.yml@master
-    with:
-      SERVICE_LOCATION: ${{ matrix.SERVICE_LOCATION }}
-      SERVICE_NAME: ${{ matrix.SERVICE_NAME }}
-      BUILD_ARTIFACT: ${{ matrix.BUILD_ARTIFACT }}
-    secrets:
-      DEV_NAMESPACE_DOCKER_HUB: ${{ secrets.DEV_NAMESPACE_DOCKER_HUB }}
-      ACTOR_DOCKER_HUB: ${{ secrets.ACTOR_DOCKER_HUB }}
-      RELEASE_DOCKER_HUB: ${{ secrets.RELEASE_DOCKER_HUB }}
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+      ## Recreate zips to provide support for docker unzip operation
+  recreate-zips:
+    needs: build-maven-print
+    runs-on: ubuntu-latest
+    env:
+      BUILD_ARTIFACT: kafka-connect
+      NEW_BUILD_ARTIFACT: es-kafka-connect
+      SERVICE_LOCATION: build/es-kafka-connecter
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        if: ${{ ( env.BUILD_ARTIFACT != 'false' ) }}
+        with:
+          name: ${{ env.BUILD_ARTIFACT }}
+          path: ../
+      - name: recreate zip
+        run: |
+          cd ../
+          
+          echo "LS ./"
+          ls .
+          echo "unzip command"
+          unzip -uj "${{ env.BUILD_ARTIFACT }}.zip" "target/*" -d "${{ env.SERVICE_LOCATION }}/target/"
+          
+          echo "find command"
+          cd ${{ env.SERVICE_LOCATION }}
+          find ../${{ env.SERVICE_LOCATION }} -path '*/target/*' -name '*.jar'  -type f  -executable -exec zip ${{ env.NEW_BUILD_ARTIFACT }}.zip {} +
+      - name: Upload the springboot jars
+        if: ${{ !contains(github.ref, 'master') || !contains(github.ref, 'main') }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.NEW_BUILD_ARTIFACT }}
+          path: ${{ env.NEW_BUILD_ARTIFACT }}.zip
+
+    build-dockers:
+      needs: recreate-zips
+      strategy:
+        matrix:
+          include:
+            - SERVICE_LOCATION: 'build/es-kafka-connecter'
+              SERVICE_NAME: 'es-kafka-connecter'
+              BUILD_ARTIFACT: 'es-kafka-connect'
+        fail-fast: false
+      name: ${{ matrix.SERVICE_NAME }}
+      uses: mosip/kattu/.github/workflows/docker-build.yml@master
+      with:
+        SERVICE_LOCATION: ${{ matrix.SERVICE_LOCATION }}
+        SERVICE_NAME: ${{ matrix.SERVICE_NAME }}
+        BUILD_ARTIFACT: ${{ matrix.BUILD_ARTIFACT }}
+      secrets:
+        DEV_NAMESPACE_DOCKER_HUB: ${{ secrets.DEV_NAMESPACE_DOCKER_HUB }}
+        ACTOR_DOCKER_HUB: ${{ secrets.ACTOR_DOCKER_HUB }}
+        RELEASE_DOCKER_HUB: ${{ secrets.RELEASE_DOCKER_HUB }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
   build-dockers-debezium-fixer:
     strategy:

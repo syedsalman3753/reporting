@@ -41,7 +41,7 @@ jobs:
     env:
       BUILD_ARTIFACT: kafka-connect
       NEW_BUILD_ARTIFACT: es-kafka-connect
-      SERVICE_LOCATION: build/es-kafka-connecter/kafka_connect_transforms
+      SERVICE_LOCATION: kafka-connect
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3

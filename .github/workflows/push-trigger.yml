@@ -36,7 +36,7 @@ jobs:
 
       ## Recreate zips to provide support for docker unzip operation
   recreate-zips:
-    needs: build-maven-print
+    needs: build-maven-kafka-connect-transforms
     runs-on: ubuntu-latest
     env:
       BUILD_ARTIFACT: kafka-connect

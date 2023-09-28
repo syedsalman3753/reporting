@@ -68,7 +68,7 @@ jobs:
           name: ${{ env.NEW_BUILD_ARTIFACT }}
           path: ${{ env.NEW_BUILD_ARTIFACT }}.zip
 
-    build-dockers:
+    build-dockers-es-kafka-connect:
       needs: recreate-zips
       strategy:
         matrix:

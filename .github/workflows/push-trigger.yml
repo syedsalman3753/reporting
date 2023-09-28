@@ -39,7 +39,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - SERVICE_LOCATION: 'build/es-kafka-connecter'
+          - SERVICE_LOCATION: './build/es-kafka-connecter'
             SERVICE_NAME: 'kafka-connect-transforms'
             BUILD_ARTIFACT: 'kafka-connect'
       fail-fast: false

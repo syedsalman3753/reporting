@@ -48,7 +48,7 @@ jobs:
         if: ${{ ( env.BUILD_ARTIFACT != 'false' ) }}
         with:
           name: ${{ env.BUILD_ARTIFACT }}
-          path: build/es-kafka-connecter/kafka_connect_transforms
+          path: ./
       - name: recreate zip
         run: |
           cd ../
@@ -56,8 +56,11 @@ jobs:
           echo "LS ./"
           ls .
           echo "unzip command"
-          mkdir jars:cd jar
           unzip -uj "${{ env.BUILD_ARTIFACT }}.zip" "*/target/*" -d "${{ env.SERVICE_LOCATION }}/target/"
+          
+          mkdir jars; cd jars
+          cp ../kafka_connect_transforms/target/kafka_connect_transforms*.jar .
+          wget https://repo.maven.apache.org/maven2/io/debezium/debezium-core/1.7.0.Final/debezium-core-1.7.0.Final.jar
           
           echo "find command"
           cd ${{ env.SERVICE_LOCATION }}
@@ -73,8 +76,8 @@ jobs:
       needs: recreate-zips
       strategy:
         matrix:
-          include:
-            - SERVICE_LOCATION: './reporting'
+         include:
+            - SERVICE_LOCATION: 'build/es-kafka-connect'
               SERVICE_NAME: 'es-kafka-connect'
               BUILD_ARTIFACT: 'es-kafka-connect'
         fail-fast: false

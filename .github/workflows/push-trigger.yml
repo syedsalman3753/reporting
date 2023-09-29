@@ -73,7 +73,7 @@ jobs:
       strategy:
         matrix:
           include:
-            - SERVICE_LOCATION: '../reporting'
+            - SERVICE_LOCATION: './reporting'
               SERVICE_NAME: 'es-kafka-connect'
               BUILD_ARTIFACT: 'es-kafka-connect'
         fail-fast: false

@@ -48,7 +48,7 @@ jobs:
         if: ${{ ( env.BUILD_ARTIFACT != 'false' ) }}
         with:
           name: ${{ env.BUILD_ARTIFACT }}
-          path: ../
+          path: build/es-kafka-connecter/kafka_connect_transforms
       - name: recreate zip
         run: |
           cd ../

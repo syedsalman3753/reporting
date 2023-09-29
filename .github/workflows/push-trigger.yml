@@ -41,7 +41,7 @@ jobs:
     env:
       BUILD_ARTIFACT: kafka-connect
       NEW_BUILD_ARTIFACT: es-kafka-connect
-      SERVICE_LOCATION: build/es-kafka-connecter/kafka_connect_transforms
+      SERVICE_LOCATION: reporting
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
@@ -56,7 +56,7 @@ jobs:
           echo "LS ./"
           ls .
           echo "unzip command"
-          unzip -uj "${{ env.BUILD_ARTIFACT }}.zip" "*target/*" -d "${{ env.SERVICE_LOCATION }}/target/"
+          unzip -uj "${{ env.BUILD_ARTIFACT }}.zip" "*/target/*" -d "${{ env.SERVICE_LOCATION }}/target/"
           
           echo "find command"
           cd ${{ env.SERVICE_LOCATION }}

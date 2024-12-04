@@ -116,10 +116,48 @@ bitnami-kafka:
   kraft:
     enabled: false
   deleteTopicEnable: true
+  livenessProbe:
+    enabled: true
+    timeoutSeconds: 5
+    failureThreshold: 5
+    periodSeconds: 10
+    successThreshold: 1
+  readinessProbe:
+    enabled: true
+    failureThreshold: 6
+    timeoutSeconds: 5
+    periodSeconds: 10
+    successThreshold: 1
+  startupProbe:
+    enabled: true
+    initialDelaySeconds: 20
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 60
+    successThreshold: 1
   zookeeper:
     fullnameOverride: kafka-zookeeper
     enabled: true
     replicaCount: 4
+    livenessProbe:
+      enabled: true
+      timeoutSeconds: 5
+      failureThreshold: 5
+      periodSeconds: 10
+      successThreshold: 1
+    readinessProbe:
+      enabled: true
+      failureThreshold: 6
+      timeoutSeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+    startupProbe:
+      enabled: true
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 30
+      successThreshold: 1
     persistence:
       enabled: false
 
